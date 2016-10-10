@@ -10,24 +10,11 @@ NFA::NFA()
 //delete function
 NFA::~NFA()
 {
-  std::cout << "Deleting Values\n";
   for(int i = 0; i < m_list->size(); i++)
   {
     for(int j = 0; j < getColumns(i); j++)
-    {
-      for(int k = 0; k < getValues(i,j) - 2; k++)
-        delete m_list->get(i)->getValue()->get(j)->getValue()->get(k);
-    }
-  }
-  std::cout << "Deleting Columns\n";
-  for(int i = 0; i < m_list->size(); i++)
-  {
-    for(int j = 0; j < getColumns(i) - 2; j++)
-    {
       delete m_list->get(i)->getValue()->get(j)->getValue();
-    }
   }
-  std::cout << "Deleting Rows\n";
   for(int i = 0; i < getRows(); i++)
   {
     delete m_list->get(i)->getValue();
@@ -274,16 +261,16 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
 }
 
 
-// int NFA::eclosureSize(int state);
-// int NFA::eclosureSize(DoubleLinkedList<int>* states);
-// int NFA::eclosureSize(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates);
-//
-// int NFA::eclosureValue(int state, int index);
-// int NFA::eclosureValue(DoubleLinkedList<int>* states, int index);
-// int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index);
-//
-//
-//
+int NFA::eclosureSize(int state);
+int NFA::eclosureSize(DoubleLinkedList<int>* states);
+int NFA::eclosureSize(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates);
+
+int NFA::eclosureValue(int state, int index);
+int NFA::eclosureValue(DoubleLinkedList<int>* states, int index);
+int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index);
+
+
+
 
 
 
