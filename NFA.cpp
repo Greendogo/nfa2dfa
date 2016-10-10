@@ -239,7 +239,7 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
         DoubleLinkedList<int>* temp = new DoubleLinkedList<int>;
         if(!(passedStates->find(current)))
         {
-          tempSize = eclosure(current,list,passedStates)->size();
+          tempSize = eclosureSize(current,list,passedStates);
           for(int s = 0; s < tempSize; s++)
           {
             temp->pushBack(eclosure(current,list,passedStates)->get(s)->getValue());
@@ -261,13 +261,52 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
 }
 
 
-int NFA::eclosureSize(int state);
-int NFA::eclosureSize(DoubleLinkedList<int>* states);
-int NFA::eclosureSize(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates);
+int NFA::eclosureSize(int state)
+{
+  DoubleLinkedList<int>* temp = eclosure(state);
+  int size = temp->size();
+  delete temp;
+  return size;
+}
 
-int NFA::eclosureValue(int state, int index);
-int NFA::eclosureValue(DoubleLinkedList<int>* states, int index);
-int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index);
+int NFA::eclosureSize(DoubleLinkedList<int>* states)
+{
+  DoubleLinkedList<int>* temp = eclosure(states);
+  int size = temp->size();
+  delete temp;
+  return size;
+}
+
+int NFA::eclosureSize(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates)
+{
+  DoubleLinkedList<int>* temp = eclosure(state, list, passedStates);
+  int size = temp->size();
+  delete temp;
+  return size;
+}
+
+int NFA::eclosureValue(int state, int index)
+{
+  DoubleLinkedList<int>* temp = eclosure(state);
+  int size = temp->get(index)->getValue();
+  delete temp;
+  return size;
+}
+int NFA::eclosureValue(DoubleLinkedList<int>* states, int index)
+{
+  DoubleLinkedList<int>* temp = eclosure(states);
+  int size = temp->get(index)->getValue();
+  delete temp;
+  return size;
+}
+
+int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index)
+{
+  DoubleLinkedList<int>* temp = eclosure(state, list, passedStates);
+  int size = temp->get(index)->getValue();
+  delete temp;
+  return size;
+}
 
 
 
