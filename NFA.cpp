@@ -184,6 +184,8 @@ DoubleLinkedList<int>* NFA::eclosure(int state)
     list->pushBack(templist->get(j)->getValue());
   }
   delete templist;
+  for(int i = 0; i < 1000; i++)
+    list->sort();
   return list->sort();
 }
 
