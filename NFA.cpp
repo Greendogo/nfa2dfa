@@ -10,12 +10,25 @@ NFA::NFA()
 //delete function
 NFA::~NFA()
 {
+  std::cout << "Deleting Values\n";
   for(int i = 0; i < m_list->size(); i++)
   {
-    for(int j = 0; j < m_list->get(i)->getValue()->size(); j++)
-      delete m_list->get(i)->getValue()->get(j)->getValue();
+    for(int j = 0; j < getColumns(i); j++)
+    {
+      for(int k = 0; k < getValues(i,j) - 2; k++)
+        delete m_list->get(i)->getValue()->get(j)->getValue()->get(k);
+    }
   }
+  std::cout << "Deleting Columns\n";
   for(int i = 0; i < m_list->size(); i++)
+  {
+    for(int j = 0; j < getColumns(i) - 2; j++)
+    {
+      delete m_list->get(i)->getValue()->get(j)->getValue();
+    }
+  }
+  std::cout << "Deleting Rows\n";
+  for(int i = 0; i < getRows(); i++)
   {
     delete m_list->get(i)->getValue();
   }
@@ -133,9 +146,7 @@ DoubleLinkedList<int>* NFA::getColumn(int row, int column)
 int NFA::getValue(int row, int column, int index)
 {
   int temp = 0;
-  if(m_list->get(row) != nullptr)
-  if(m_list->get(row)->getValue()->get(column) != nullptr)
-  if(m_list->get(row)->getValue()->get(column)->getValue()->get(index) != nullptr)
+  if(valueExists(row, column, index))
     temp = m_list->get(row)->getValue()->get(column)->getValue()->get(index)->getValue();
   return temp;
 }
@@ -148,18 +159,18 @@ void NFA::print()
   int m_k;
   for(int i = 0; i < m_i; i++)
   {
-    m_j = m_list->get(i)->getValue()->size();
+    m_j = getColumns(i);
     std::cout << (i + 1);
     if(m_j > 0)
     {
       for(int j = 0; j < m_j; j++)
       {
-        m_k = m_list->get(i)->getValue()->get(j)->getValue()->size();
+        m_k = getValues(i,j);
         std::cout << "\t{";
         for(int k = 0; k < m_k; k++)
         {
 
-          if((m_list->get(i)->getValue()->get(j)->getValue()->get(k) != nullptr))
+          if(valueExists(i,j,k))
             m_list->get(i)->getValue()->get(j)->getValue()->printList();
 
         }
@@ -210,6 +221,7 @@ DoubleLinkedList<int>* NFA::eclosure(DoubleLinkedList<int>* states)
       }
     }
   }
+  // delete states;
   delete templist;
   return list->sort();
 }
@@ -231,14 +243,12 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
       for(int i = 0; i < numEs; i++)
       {
         int current = getValue(state + 3, symbols - 1, i);
-        // m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
         if(!(list->find(current)))
           list->pushBack(current);
       }
       for(int i = 0; i < numEs; i++)
       {
         int current = getValue(state + 3, symbols - 1, i);
-        // m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
         DoubleLinkedList<int>* temp = new DoubleLinkedList<int>;
         if(!(passedStates->find(current)))
         {
@@ -262,6 +272,31 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
     list->sort();
   return list;
 }
+
+
+// int NFA::eclosureSize(int state);
+// int NFA::eclosureSize(DoubleLinkedList<int>* states);
+// int NFA::eclosureSize(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates);
+//
+// int NFA::eclosureValue(int state, int index);
+// int NFA::eclosureValue(DoubleLinkedList<int>* states, int index);
+// int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index);
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //performs the move operature returning a DLL* of the results
 DoubleLinkedList<int>* NFA::move(DoubleLinkedList<int>* eclosure, int transition)
