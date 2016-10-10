@@ -300,14 +300,14 @@ int NFA::eclosureValue(int state, int index)
 {
   DoubleLinkedList<int>* temp = eclosure(state);
   int size = temp->get(index)->getValue();
-  // delete temp;
+  delete temp;
   return size;
 }
 int NFA::eclosureValue(DoubleLinkedList<int>* states, int index)
 {
   DoubleLinkedList<int>* temp = eclosure(states);
   int size = temp->get(index)->getValue();
-  // delete temp;
+  delete temp;
   return size;
 }
 
@@ -315,7 +315,7 @@ int NFA::eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<
 {
   DoubleLinkedList<int>* temp = eclosure(state, list, passedStates);
   int size = temp->get(index)->getValue();
-  // delete temp;
+  delete temp;
   return size;
 }
 
