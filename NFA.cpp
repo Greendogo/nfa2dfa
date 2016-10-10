@@ -174,7 +174,7 @@ DoubleLinkedList<int>* NFA::eclosure(DoubleLinkedList<int>* states)
       }
     }
   }
-  // delete templist;
+  delete templist;
   return list->sort();
 }
 
