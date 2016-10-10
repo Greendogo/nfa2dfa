@@ -247,7 +247,7 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
       {
         int current = getValue(state + 3, symbols - 1, i);
         DoubleLinkedList<int>* temp = new DoubleLinkedList<int>;
-        if(!(passedStates->find(current)))
+        if(!(tempPassedStates->find(current)))
         {
           tempSize = eclosureSize(current,tempList,tempPassedStates);
           for(int s = 0; s < tempSize; s++)
