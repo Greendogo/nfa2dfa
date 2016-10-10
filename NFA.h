@@ -51,6 +51,8 @@ public:
   int eclosureValue(int state, DoubleLinkedList<int>* list, DoubleLinkedList<int>* passedStates, int index);
   //move function
   DoubleLinkedList<int>* move(DoubleLinkedList<int>* eclosure, int transition);
+  int moveSize(DoubleLinkedList<int>* eclosure, int transition);
+  int moveValue(DoubleLinkedList<int>* eclosure, int transition, int index);
 
 private:
   DoubleLinkedList<DoubleLinkedList<DoubleLinkedList<int>*>*>* m_list;

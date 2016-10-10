@@ -357,3 +357,19 @@ DoubleLinkedList<int>* NFA::move(DoubleLinkedList<int>* eclosure, int transition
   }
   return m_DLL->sort();
 }
+
+int NFA::moveSize(DoubleLinkedList<int>* eclosure, int transition)
+{
+  DoubleLinkedList<int>* temp = move(eclosure, transition);
+  int size = temp->size();
+  delete temp;
+  return size;
+}
+
+int NFA::moveValue(DoubleLinkedList<int>* eclosure, int transition, int index)
+{
+  DoubleLinkedList<int>* temp = move(eclosure, transition);
+  int size = temp->get(index)->getValue();
+  delete temp;
+  return size;
+}

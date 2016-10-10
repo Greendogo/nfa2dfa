@@ -162,10 +162,10 @@ void mark(NFA* m_NFA, DoubleLinkedList<int>* a, DoubleLinkedList<DoubleLinkedLis
 		for(int i = 0; i < size; i++)
 		{
 			DoubleLinkedList<int>* moved = new DoubleLinkedList<int>;
-			int tempSize = m_NFA->move(a,i)->size();
+			int tempSize = m_NFA->moveSize(a,i);
 			for(int s = 0; s < tempSize; s++)
 			{
-				moved->pushBack(m_NFA->move(a,i)->get(s)->getValue());
+				moved->pushBack(m_NFA->moveValue(a,i,s));
 			}
 			if(moved->size() > 0)
 			{
