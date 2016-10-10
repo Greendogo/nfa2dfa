@@ -286,7 +286,7 @@ void printMarks(NFA* m_NFA, DoubleLinkedList<DoubleLinkedList<int>*>* marks)
 	for(int i = 0; i < m_NFA->getValues(3,0) - 1;i++)
 		std::cout << "\t" << (char)(m_NFA->getValue(3,0,i));
 	std::cout << "\n";
-	delete tempCol;
-	delete originalFinal;
-	delete newFinal;
+	// delete tempCol;
+	// delete originalFinal;
+	// delete newFinal;
 }
