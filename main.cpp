@@ -158,7 +158,7 @@ void mark(NFA* m_NFA, DoubleLinkedList<int>* a, DoubleLinkedList<DoubleLinkedLis
 	std::cout << "\nMark " << getMark(a,marks) << "\n";
 	if(a->size() > 0)
 	{
-		int size = m_NFA->getColumn(3,0)->size() - 1;
+		int size = m_NFA->getValues(3,0) - 1;
 		for(int i = 0; i < size; i++)
 		{
 			DoubleLinkedList<int>* moved = new DoubleLinkedList<int>;
@@ -176,11 +176,11 @@ void mark(NFA* m_NFA, DoubleLinkedList<int>* a, DoubleLinkedList<DoubleLinkedLis
 				int column = getMark(a,marks);
 				moved->printList();
 				std::cout << "}\n";
-				tempSize = m_NFA->eclosure(moved)->size();
+				tempSize = m_NFA->eclosureSize(moved);
 				DoubleLinkedList<int>* eclosure = new DoubleLinkedList<int>;
 				for(int s = 0; s < tempSize; s++)
 				{
-					eclosure->pushBack(m_NFA->eclosure(moved)->get(s)->getValue());
+					eclosure->pushBack(m_NFA->eclosureValue(moved,s));
 				}
 				std::cout << "E-closure{";
 				moved->printList();
@@ -229,9 +229,9 @@ void mark(NFA* m_NFA, DoubleLinkedList<DoubleLinkedList<int>*>* marks, NFA* mark
 	std::cout << "E-closure(I0) = {";
 	int initial = m_NFA->getValue(0,0,0);
 	DoubleLinkedList<int>* a	= new DoubleLinkedList<int>;
-	for(int i = 0; i < m_NFA->eclosure(initial)->sort()->size(); i++)
+	for(int i = 0; i < m_NFA->eclosureSize(initial); i++)
 	{
-		a->pushBack(m_NFA->eclosure(initial)->sort()->get(i)->getValue()); //eclosure gives a DLL*
+		a->pushBack(m_NFA->eclosureValue(initial,i)); //eclosure gives a DLL*
 	}
 	marks->pushBack(new DoubleLinkedList<int>);
 	for(int i = 0; i < a->size(); i++)
