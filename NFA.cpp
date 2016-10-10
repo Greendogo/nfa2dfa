@@ -114,15 +114,15 @@ DoubleLinkedList<DoubleLinkedList<int>*>* NFA::getRow(int row)
 DoubleLinkedList<int>* NFA::getColumn(int row, int column)
 {
   DoubleLinkedList<int>* temp = nullptr;
-  if(m_list->get(row) != nullptr)
+  if(rowExists(row))
   {
-    if(m_list->get(row)->getValue()->get(column) != nullptr)
+    if(columnExists(row, column))
     {
       int tempSize = getValues(row, column);
       temp = new DoubleLinkedList<int>;
       for(int s = 0; s < tempSize; s++)
       {
-        temp->pushBack(m_list->get(row)->getValue()->get(column)->getValue()->get(s)->getValue());
+        temp->pushBack(getValue(row, column, s));
       }
     }
   }
