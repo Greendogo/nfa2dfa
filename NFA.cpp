@@ -174,12 +174,11 @@ DoubleLinkedList<int>* NFA::eclosure(int state)
   DoubleLinkedList<int>* list = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist2 = new DoubleLinkedList<int>;
-  // DoubleLinkedList<int>* templist3 = new DoubleLinkedList<int>;
+  DoubleLinkedList<int>* templist3 = new DoubleLinkedList<int>;
   int tempSize = eclosureSize(state, new DoubleLinkedList<int>, templist2);
-  delete templist2;
   for(int s = 0; s < tempSize; s++)
   {
-    templist->pushBack(eclosureValue(state, new DoubleLinkedList<int>, new DoubleLinkedList<int>,s));
+    templist->pushBack(eclosureValue(state, new DoubleLinkedList<int>, templist3,s));
   }
   for(int j = 0; j < templist->size(); j++)
   {
@@ -187,6 +186,8 @@ DoubleLinkedList<int>* NFA::eclosure(int state)
     list->pushBack(templist->get(j)->getValue());
   }
   delete templist;
+  delete templist2;
+  delete templist3;
   return list->sort();
 }
 
@@ -195,12 +196,14 @@ DoubleLinkedList<int>* NFA::eclosure(DoubleLinkedList<int>* states)
 {
   DoubleLinkedList<int>* list = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist = new DoubleLinkedList<int>;
+  DoubleLinkedList<int>* templist2 = new DoubleLinkedList<int>;
+  DoubleLinkedList<int>* templist3 = new DoubleLinkedList<int>;
   for(int i = 0; i < states->size(); i++)
   {
-    int tempSize = eclosureSize(states->get(i)->getValue(), new DoubleLinkedList<int>, new DoubleLinkedList<int>);
+    int tempSize = eclosureSize(states->get(i)->getValue(), new DoubleLinkedList<int>, templist2);
     for(int s = 0; s < tempSize; s++)
     {
-      templist->pushBack(eclosureValue(states->get(i)->getValue(), new DoubleLinkedList<int>, new DoubleLinkedList<int>,s));
+      templist->pushBack(eclosureValue(states->get(i)->getValue(), new DoubleLinkedList<int>, templist3,s));
     }
 
     for(int j = 0; j < templist->size(); j++)
@@ -213,6 +216,8 @@ DoubleLinkedList<int>* NFA::eclosure(DoubleLinkedList<int>* states)
   }
   // delete states;
   delete templist;
+  delete templist2;
+  delete templist3;
   return list->sort();
 }
 
