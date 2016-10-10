@@ -127,8 +127,7 @@ for(int j = 0; j < file.size(); j++)
 	NFA* mark_transitions = new NFA;
 	mark(myNFA, marks, mark_transitions); //builds the mark steps
 	std::cout << "\n";
-	for(int i = 0; i < 1000; i++)
-		printMarks(myNFA, marks); //prints the mark walk through
+	printMarks(myNFA, marks); //prints the mark walk through
 	mark_transitions->print(); //prints the new DFA transitions
 	delete myNFA; //attempt some sort of memory management
 	delete mark_transitions;
