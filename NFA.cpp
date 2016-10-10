@@ -222,6 +222,7 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
   }
   else
     list->sort();
+  delete passedStates;
   return list;
 }
 

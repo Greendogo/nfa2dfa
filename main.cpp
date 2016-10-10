@@ -261,11 +261,13 @@ void mark(NFA* m_NFA, DoubleLinkedList<DoubleLinkedList<int>*>* marks, NFA* mark
 //prints the new dfa diagram
 void printMarks(NFA* m_NFA, DoubleLinkedList<DoubleLinkedList<int>*>* marks)
 {
-	int tempSize = m_NFA->getColumn(1,0)->size();
+	DoubleLinkedList<DoubleLinkedList<int>*>* tempCol = nullptr;
+	tempCol = m_NFA->getColumn(1,0);
+	int tempSize = tempCol->size();
 	DoubleLinkedList<int>* originalFinal = new DoubleLinkedList<int>;
 	for(int s = 0; s < tempSize; s++)
 	{
-		originalFinal->pushBack(m_NFA->getColumn(1,0)->get(s)->getValue());
+		originalFinal->pushBack(tempCol->get(s)->getValue());
 	}
 	DoubleLinkedList<int>* newFinal = new DoubleLinkedList<int>;
 	// originalFinal->printList();
@@ -284,6 +286,7 @@ void printMarks(NFA* m_NFA, DoubleLinkedList<DoubleLinkedList<int>*>* marks)
 	for(int i = 0; i < m_NFA->getColumn(3,0)->size() - 1;i++)
 		std::cout << "\t" << (char)(m_NFA->getValue(3,0,i));
 	std::cout << "\n";
+	delete tempCol;
 	delete originalFinal;
 	delete newFinal;
 }
