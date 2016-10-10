@@ -173,12 +173,14 @@ DoubleLinkedList<int>* NFA::eclosure(int state)
 {
   DoubleLinkedList<int>* list = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist = new DoubleLinkedList<int>;
+  DoubleLinkedList<int>* templist1 = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist2 = new DoubleLinkedList<int>;
   DoubleLinkedList<int>* templist3 = new DoubleLinkedList<int>;
-  int tempSize = eclosureSize(state, new DoubleLinkedList<int>, templist2);
+  DoubleLinkedList<int>* templist4 = new DoubleLinkedList<int>;
+  int tempSize = eclosureSize(state, templist1, templist2);
   for(int s = 0; s < tempSize; s++)
   {
-    templist->pushBack(eclosureValue(state, new DoubleLinkedList<int>, templist3,s));
+    templist->pushBack(eclosureValue(state, templist3, templist4,s));
   }
   for(int j = 0; j < templist->size(); j++)
   {
@@ -186,8 +188,10 @@ DoubleLinkedList<int>* NFA::eclosure(int state)
     list->pushBack(templist->get(j)->getValue());
   }
   delete templist;
+  delete templist1;
   delete templist2;
   delete templist3;
+  delete templist4;
   return list->sort();
 }
 
