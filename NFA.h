@@ -12,6 +12,16 @@ public:
   ~NFA();
   //Returns the rows
   int getRows();
+  //Returns the num of columns
+  int getColumns(int row);
+  //Returns the num of Values
+  int getValues(int row, int column);
+  //Checks existence of a row
+  bool rowExists(int row);
+  //checks existence of a column
+  bool columnExists(int row, int column);
+  //checks existence of a value
+  bool valueExists(int row, int column, int index);
   //Adds a new row
   void addRow();
   //Adds a new column

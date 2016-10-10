@@ -28,6 +28,42 @@ int NFA::getRows()
   return m_list->size();
 }
 
+int NFA::getColumns(int row)
+{
+  return m_list->get(row)->getValue()->size();
+}
+
+int NFA::getValues(int row, int column)
+{
+  return m_list->get(row)->getValue()->get(column)->getValue()->size();
+}
+
+bool NFA::rowExists(int row)
+{
+  bool exists = false;
+  if(m_list->get(row))
+    exists = true;
+  return exists;
+}
+
+bool NFA::columnExists(int row, int column)
+{
+  bool exists = false;
+  if(rowExists(row))
+    if(m_list->get(row)->getValue()->get(column))
+      exists = true;
+  return exists;
+}
+
+bool NFA::valueExists(int row, int column, int index)
+{
+  bool exists = false;
+  if(columnExists(row, column))
+    if(m_list->get(row)->getValue()->get(column)->getValue()->get(index))
+      exists = true;
+  return exists;
+}
+
 //adds a row
 void NFA::addRow()
 {
@@ -82,7 +118,7 @@ DoubleLinkedList<int>* NFA::getColumn(int row, int column)
   {
     if(m_list->get(row)->getValue()->get(column) != nullptr)
     {
-      int tempSize = m_list->get(row)->getValue()->get(column)->getValue()->size();
+      int tempSize = getValues(row, column);
       temp = new DoubleLinkedList<int>;
       for(int s = 0; s < tempSize; s++)
       {
@@ -184,23 +220,25 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
   int tempSize = 0;
   if(!(passedStates->find(state)))
     passedStates->pushBack(state);
-  int symbols = getRow(3)->get(0)->getValue()->size();
+  int symbols = getValues(3,0);
   if(!(list->find(state)))
     list->pushBack(state);
   if(m_list->get(state + 3) != nullptr)
   {
-    if(m_list->get(state + 3)->getValue()->get(symbols - 1) != nullptr)
+    if(columnExists(state + 3, symbols - 1))
     {
-      int numEs = m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->size();
+      int numEs = getValues(state + 3, symbols - 1);
       for(int i = 0; i < numEs; i++)
       {
-        int current = m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
+        int current = getValue(state + 3, symbols - 1, i);
+        // m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
         if(!(list->find(current)))
           list->pushBack(current);
       }
       for(int i = 0; i < numEs; i++)
       {
-        int current = m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
+        int current = getValue(state + 3, symbols - 1, i);
+        // m_list->get(state + 3)->getValue()->get(symbols - 1)->getValue()->get(i)->getValue();
         DoubleLinkedList<int>* temp = new DoubleLinkedList<int>;
         if(!(passedStates->find(current)))
         {
@@ -222,7 +260,6 @@ DoubleLinkedList<int>* NFA::eclosure(int state, DoubleLinkedList<int>* list, Dou
   }
   else
     list->sort();
-  delete passedStates;
   return list;
 }
 
@@ -234,13 +271,13 @@ DoubleLinkedList<int>* NFA::move(DoubleLinkedList<int>* eclosure, int transition
   for(int i = 0; i < size; i++)
   {
     int temp = eclosure->get(i)->getValue();
-    if(m_list->get(temp+3) != nullptr){
+    if(rowExists(temp+3)){
     {
-      for(int j = 0; j < m_list->get(temp+3)->getValue()->size();j++) //Play with the 1 to 2 and 3
-      if(m_list->get(temp+3)->getValue()->get(transition) != nullptr){
-      if(m_list->get(temp+3)->getValue()->get(transition)->getValue()->get(j) != nullptr)
+      for(int j = 0; j < getColumns(temp+3);j++) //Play with the 1 to 2 and 3
+      if(columnExists(temp+3,transition)){
+      if(valueExists(temp+3,transition,j))
       {
-        int temp2 = m_list->get(temp+3)->getValue()->get(transition)->getValue()->get(j)->getValue();
+        int temp2 = getValue(temp+3,transition,j);
         if(!(m_DLL->find(temp2)))
           m_DLL->pushBack(temp2);
       }}}
